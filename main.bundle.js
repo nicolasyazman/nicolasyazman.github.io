@@ -802,8 +802,8 @@ var ROUTES = [
     { path: 'detail', loadChildren: function() { return __webpack_require__.e/* import() */(1).then(__webpack_require__.bind(null, 236))  .then( function(module) { return module['DetailModule']; } ); } },
     { path: 'barrel', loadChildren: function() { return __webpack_require__.e/* import() */(2).then(__webpack_require__.bind(null, 235))  .then( function(module) { return module['BarrelModule']; } ); } },
     { path: 'search', component: __WEBPACK_IMPORTED_MODULE_3__search__["a" /* SearchPageComponent */] },
+    { path: 'skills', component: __WEBPACK_IMPORTED_MODULE_4__skills__["a" /* SkillsComponent */] },
     { path: '**', component: __WEBPACK_IMPORTED_MODULE_2__no_content__["a" /* NoContentComponent */] },
-    { path: 'skills', component: __WEBPACK_IMPORTED_MODULE_4__skills__["a" /* SkillsComponent */] }
 ];
 
 
@@ -1300,6 +1300,75 @@ SearchPageComponent = __WEBPACK_IMPORTED_MODULE_0_tslib__["a" /* __decorate */](
 
 
 
+var Project = (function () {
+    function Project(skillId, skillName, skillDescription) {
+        this.id = skillId;
+        this.name = skillName;
+        this.description = skillDescription;
+        this.relatedSkills = [];
+    }
+    Project.prototype.addRelatedSkill = function (skill) {
+        if (this.relatedSkills.length == 0 || this.relatedSkills.findIndex(function (s) { return s.getName() == skill.getName() || s.getId() == skill.getId(); }) == -1) {
+            this.relatedSkills.push(skill);
+        }
+        else {
+            console.log("Error: Adding related skill which already exists.");
+        }
+    };
+    Project.prototype.getId = function () {
+        return this.id;
+    };
+    Project.prototype.getName = function () {
+        return this.name;
+    };
+    Project.prototype.getDescription = function () {
+        return this.description;
+    };
+    Project.prototype.getRelatedSkills = function () {
+        return this.relatedSkills;
+    };
+    Project.prototype.setImageUrl = function (newImageUrl) {
+        this.imageUrl = newImageUrl;
+    };
+    return Project;
+}());
+var Skill = (function () {
+    function Skill(skillId, skillName, skillDescription, shortDescription, imageURL) {
+        this.id = skillId;
+        this.name = skillName;
+        this.description = skillDescription;
+        this.relatedProjects = [];
+        this.shortDescription = shortDescription;
+        this.imageURL = imageURL;
+    }
+    Skill.prototype.addRelatedProject = function (project) {
+        if (this.relatedProjects.length == 0 || this.relatedProjects.findIndex(function (p) { return p.getName() == project.getName() || p.getId() == project.getId(); }) == -1) {
+            this.relatedProjects.push(project);
+        }
+        else {
+            console.log("Error: Adding related project which already exists.");
+        }
+    };
+    Skill.prototype.getImageURL = function () {
+        return this.imageURL;
+    };
+    Skill.prototype.getShortDescription = function () {
+        return this.shortDescription;
+    };
+    Skill.prototype.getId = function () {
+        return this.id;
+    };
+    Skill.prototype.getName = function () {
+        return this.name;
+    };
+    Skill.prototype.getDescription = function () {
+        return this.description;
+    };
+    Skill.prototype.getRelatedProjects = function () {
+        return this.relatedProjects;
+    };
+    return Skill;
+}());
 var SkillsComponent = (function () {
     // TypeScript public modifiers
     function SkillsComponent(appState, componentFactoryResolver, ref) {
@@ -1309,7 +1378,31 @@ var SkillsComponent = (function () {
         // Set our default values
         this.localState = { value: '' };
         this.codeTerminalStatus = true;
+        this.skillNameArray = [];
+        this.skillDescriptionArray = [];
+        this.skills = [];
+        this.fetchSkillsInDatabase();
     }
+    SkillsComponent.prototype.loadProject = function (i, j) {
+        var projectToLoad = this.skills[i].getRelatedProjects()[j];
+        var newHtml = projectToLoad.getDescription() + "<br/>\n    <h2>Related skills</h2>";
+        projectToLoad.getRelatedSkills().forEach(function (skill, index) {
+            newHtml += "<div (click)=\"loadSkill(" + index + ")\">" + skill.getName() + "</div>";
+        });
+        console.log(newHtml);
+        this.skillDOM.nativeElement.innerHTML = newHtml;
+    };
+    SkillsComponent.prototype.loadSkill = function (i) {
+        var skillToLoad = this.skills[i];
+        this.skillDOM.nativeElement.innerHTML = skillToLoad.getDescription();
+    };
+    SkillsComponent.prototype.fetchSkillsInDatabase = function () {
+        var expressionAnglais = new Skill(0, "English communication", "\n      <h2>Pr\u00E9sentation</h2>\n      <p>Une bonne ma\u00EEtrise de l'anglais est n\u00E9cessaire dans un contexte mondialis\u00E9 (et qui cro\u00EEt en cet aspect), et la condition sine qua non au bon d\u00E9roulement d'une mission \u00E0 l'\u00E9tranger.</p>\n      <h2>Mise en \u0153uvre</h2>\n      <p>Ayant effectu\u00E9 ma quatri\u00E8me ann\u00E9e \u00E0 l'\u00E9tranger (Stuttgart, Allemagne) dans la filiale allemande d'un groupe fran\u00E7ais, le contexte a fait que communiquer en anglais \u00E9tait la meilleure option pour \u00E9changer avec les coll\u00E8gues et sup\u00E9rieurs efficacement.\n      La documentation, les rapports, les mails et bien d'autres facettes de ma mission \u00E9tant en anglais, j'ai pu mettre \u00E0 profit cette comp\u00E9tence d\u00E8s mon arriv\u00E9e chez Thales.\n      Dans la vie de tous les jours cette comp\u00E9tence \u00E9tait aussi fort utile, par exemple pour communiquer avec mes colocataires sur les termes l\u00E9gaux compliqu\u00E9s que je ne ma\u00EEtrise pas en allemand.</p>\n      \n      <h2>Regard critique</h2>\n      <p>La prononciation n'\u00E9tait pas forc\u00E9ment ais\u00E9e, mais je n'avais pas de probl\u00E8me particulier au niveau du vocabulaire employ\u00E9 ou du niveau de langage.</p>\n      <h2>Axes d\u2019\u00E9volutions</h2>\n      <p>M'entrainer \u00E0 prendre plus souvent la parole en Anglais, pour d'une part am\u00E9liorer ma prononciation, et d'autre part l'improvisation, ou spontan\u00E9it\u00E9 lorsqu'il s'agit de communiquer dans une langue \u00E9trang\u00E8re.</p>   \n      ", "La communication en anglais est une comp\u00E9tence indispensable en entreprise.", "assets/icon/conversation_big.png");
+        var projectInternshipThales = new Project(0, "Apprentissage chez Thales (4eme annee)", "\n      Allemagne? Richtung Ost!\n      Ah, il fait bon vivre Outre-Rhin. L'herbe \u00E9tant toujours plus verte ailleurs, j'ai voulu voir la r\u00E9alit\u00E9 du terrain en ce qui concerne le mastodonte Europ\u00E9en, lou\u00E9 comme un mod\u00E8le \u00E0 suivre. Quid du travail en Allemagne ?\n      J'ai effectu\u00E9 ma quatri\u00E8me ann\u00E9e d'alternance chez Thales Transportation Systems, \u00E0 Ditzingen. Cette ville industrielle proche de Stuttgart accueille de multiples entreprises multinationales (Bosch, Mercedes, ...). Thales Transportation Systems est la filiale Allemande du groupe sp\u00E9cialis\u00E9e dans les syst\u00E8mes de transport terrestres, et en particulier dans le domaine ferroviaire.\n      Ma mission consistait au d\u00E9veloppement et au test d'algorithmes de d\u00E9tection et mitigation du multitrajet, ph\u00E9nom\u00E8ne physique affectant n\u00E9gativement les r\u00E9ceptions GPS. Inclus dans cette mission la recherche de nouveaux algorithmes et l'analyse des solutions existantes, la proposition de nouvelles m\u00E9thodes de localisation.\n       \n      Le travail en Allemagne, retour aux bases anglo-saxonnes\n      On prend son Larousse et on conjugue ! Les langues de travail \u00E9tant l'Anglais et l'Allemand, il \u00E9tait n\u00E9cessaire de se remettre dans le bain concernant les langues de Shakespeare et de Goethe. Heureusement, les collaborateurs parlant avec maestria l'anglais, la t\u00E2che s'est r\u00E9v\u00E9l\u00E9e moins ardue que j'avais anticip\u00E9.\n      Afin de faciliter la communication avec mes coll\u00E8gues et lors des diverses \u00E9tapes de la journ\u00E9e (cantine, salle de pause), l'apprentissage de l'allemand au lyc\u00E9e n'\u00E9tait pas de trop. \n      Flexibilit\u00E9 et adaptation, au c\u0153ur du syst\u00E8me d'\u00E9change Europ\u00E9en \n      De Voyageur \u00E0 Grand Voyageur, l'exp\u00E9rience ne fut pas de tout repos. Afin de pouvoir suivre mes cours \u00E0 l'\u00E9cole le vendredi, il \u00E9tait n\u00E9cessaire de faire la navette entre Stuttgart et Paris deux fois par semaine.\n      Une \u00E9quipe s\u00E9nior, mais dynamique\n      Mes coll\u00E8gues de travail \u00E9taient \u00E2g\u00E9s de 40 \u00E0 60 ans. Cependant, il serait faux de penser que pour cette raison, la situation \u00E9tait stagnante. De nombreuses m\u00E9thodes ont \u00E9t\u00E9 d\u00E9velopp\u00E9es afin d'am\u00E9liorer la pr\u00E9cision de la localisation. Je travaillais particuli\u00E8rement avec un docteur en localisation, qui \u00E9tait par la m\u00EAme occasion mon ma\u00EEtre d'alternance.\n      L'\u00E9quipe dans laquelle je travaillais fait partie \u00E9tait connue sous le nom de ANT Project, pour Autonomous Navigation for Trains.\n      Le r\u00E9cepteur GPS, une machine bien huil\u00E9e\n      La premi\u00E8re \u00E9tape \u00E9tait le d\u00E9veloppement d'algorithmes de d\u00E9tection et de mitigation du multitrajet:\n      - Prototypage des fonctions avec Matlab\n      - D\u00E9veloppement des fonctions prototyp\u00E9es en langage C\n      Bien s\u00FBr, une phase de test \u00E9tait n\u00E9cessaire pour s'assurer du bon fonctionnement des algorithmes.\n      Afin de bien appr\u00E9hender les algorithmes, il \u00E9tait n\u00E9cessaire de lire de la documentation sur les r\u00E9cepteurs GPS. \n      La recherche, l'\u00E9ternelle moisson\n      \n      L'envers du d\u00E9cor\n      \n      Zukunft (Le futur)\n      \n      ");
+        expressionAnglais.addRelatedProject(projectInternshipThales);
+        projectInternshipThales.addRelatedSkill(expressionAnglais);
+        this.skills.push(expressionAnglais);
+    };
     SkillsComponent.prototype.ngOnInit = function () {
         console.log('hello `Skills` component');
         // this.title.getData().subscribe(data => this.data = data);
@@ -1323,6 +1416,10 @@ var SkillsComponent = (function () {
     };
     return SkillsComponent;
 }());
+__WEBPACK_IMPORTED_MODULE_0_tslib__["a" /* __decorate */]([
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_core__["ViewChild"])('skill'),
+    __WEBPACK_IMPORTED_MODULE_0_tslib__["b" /* __metadata */]("design:type", __WEBPACK_IMPORTED_MODULE_1__angular_core__["ElementRef"])
+], SkillsComponent.prototype, "skillDOM", void 0);
 SkillsComponent = __WEBPACK_IMPORTED_MODULE_0_tslib__["a" /* __decorate */]([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_core__["Component"])({
         // The selector is what angular internally uses
@@ -1552,7 +1649,7 @@ module.exports = "<div>\n  <!--<h1 x-large class=\"sample-content\">Your Content
 /***/ 88:
 /***/ (function(module, exports) {
 
-module.exports = "<div>\n  <!--<h1 x-large class=\"sample-content\">Your Content Here</h1>-->\n   <div #codeterminal >\n     \n   </div>\n\n  \n<a materialize=\"tooltip\" class=\"btn tooltipped\" data-position=\"bottom\" data-delay=\"10\" [attr.data-tooltip]=\"buildToolTipText\" (click)=\"createBuildCodeTerminal()\"><img src=\"./assets/icon/compile.png\"/>{{buildButtonText}}</a>\n<a materialize=\"tooltip\" class=\"btn tooltipped\" data-position=\"bottom\" data-delay=\"10\" data-tooltip=\"I am tooltip\" ><img src=\"./assets/icon/compilerun.png\"/>Build and Run</a>\n<a materialize=\"tooltip\" class=\"btn tooltipped\" data-position=\"bottom\" data-delay=\"10\" data-tooltip=\"I am tooltip\" (click)=\"createRunCodeTerminal()\"><img src=\"./assets/icon/run.png\"/>Run</a>\n  \n\n  <!-- Modal Trigger -->\n  <!--<a  class=\"waves-effect waves-light btn\" href=\"#modal1\">Modal</a> -->\n\n  <!-- Modal Structure -->\n  <!--<div id=\"modal1\" class=\"modal\" materialize=\"modal\">\n    <div class=\"modal-content\">\n      <h4>Modal Header</h4>\n      <p>A bunch of text</p>\n    </div>\n    <div class=\"modal-footer\">\n      <a href=\"#!\" class=\"modal-action modal-close waves-effect waves-green btn-flat\">Agree</a>\n    </div>\n  </div>\n\n  <a class=\"btn\" onclick=\"Materialize.toast('I am a toast', 4000)\">Toast 1!</a>\n  -->\n</div>\n"
+module.exports = "<div #skill>\n        <ul class=\"collection\">\n                <li class=\"collection-item avatar\" *ngFor=\"let skill of skills; let i = index\">\n                    <div (click)=\"loadSkill(i)\">\n                            <img class=\"material-icons circle\" [src]=\"skill.getImageURL()\"/>\n                            <span class=\"title\">{{skill.getName()}}</span>\n                        <p [innerHtml]=\"skill.getShortDescription()\"></p>\t\n                    </div>\n                    <div>\n                        <h2>Related projects</h2>\n                        <div *ngFor=\"let relatedProject of skill.getRelatedProjects(); let j = index\">\n                            <div (click)=\"loadProject(i, j)\">{{relatedProject.getName()}}</div>\n                        </div>                       \n                    </div>\t                   \n                </li>\n              </ul>\n        <div>Icons made by <a href=\"http://www.freepik.com\" title=\"Freepik\">Freepik</a> from <a href=\"https://www.flaticon.com/\" title=\"Flaticon\">www.flaticon.com</a> is licensed by <a href=\"http://creativecommons.org/licenses/by/3.0/\" title=\"Creative Commons BY 3.0\" target=\"_blank\">CC 3.0 BY</a></div>\n</div>\n"
 
 /***/ }),
 
