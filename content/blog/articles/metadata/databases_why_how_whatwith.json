@@ -1,9 +1,13 @@
 {
     "title": "Databases : why, how and what with?",
 
-    "image": "",
+    "image": "articles/thumbnail_imgs/databases_thumbnail.jpg",
 
-    "article_full_name": "databases_why_how_whatwith.md"
+    "article_full_name": "databases_why_how_whatwith.md",
 
+    "category" : "technique",
     
+    "author": "Nicolas Yazman"
+    
+
 }
