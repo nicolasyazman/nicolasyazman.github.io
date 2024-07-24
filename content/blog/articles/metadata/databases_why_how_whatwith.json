@@ -7,7 +7,9 @@
 
     "category" : "technique",
     
-    "author": "Nicolas Yazman"
+    "author": "Nicolas Yazman",
+
+    "short_description": "What is the history of databases, the various forms of databases, and how they are used and conceived nowadays?"
     
 
 }

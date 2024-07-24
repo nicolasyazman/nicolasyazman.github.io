@@ -1,0 +1,70 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap');
+
+nav {
+    display: flex; /* 1 */
+    justify-content: space-between; /* 2 */
+    padding: 1rem 2rem; /* 3 */
+    background: #000000; /* 4 */
+
+    --var-heading: normal normal 600 1.5em/1.6em 'Outfit', sans-serif;
+    
+    --var-small-heading: normal normal 400 1em/1em 'Outfit', sans-serif;
+    
+    --var-para: normal normal 300 1em/1.55em 'Outfit', sans-serif;
+
+
+  }
+  
+  
+*, *::before, *::after {
+    box-sizing: inherit;
+    margin: 0;
+}
+
+body {
+
+    
+     /* Primary */
+     --var-soft-blue: hsl(215, 51%, 70%);
+     --var-cyan: hsl(178, 100%, 50%);
+     /* Neutral */
+     --var-main-darkest: hsl(217, 54%, 11%);
+     --var-card-dark: hsl(216, 50%, 16%);
+     --var-line-dark: hsl(215, 32%, 27%);
+     --var-lightest: white;
+
+    background-color: var(--var-main-darkest);
+}
+
+
+  nav ul {
+    display: flex; /* 5 */
+    list-style: none; /* 6 */
+  }
+  
+  nav li {
+    padding-left: 1rem; /* 7! */
+  }
+  
+  nav a {
+    text-decoration: none;
+    color: #ffffff;
+    font: var(--var-heading);
+  }
+  
+  /* 
+  Extra small devices (phones, 600px and down) 
+*/
+@media only screen and (max-width: 600px) {
+    nav {
+      flex-direction: column;
+    }
+    nav ul {
+      flex-direction: column;
+      padding-top: 0.5rem;
+    }
+    nav li {
+      padding: 0.5rem 0;
+    }
+  } 

@@ -1,0 +1,15 @@
+{
+    "title": "Test Driven Development: what it is and how to use",
+
+    "image": "articles/thumbnail_imgs/tdd_thumbnail.jpg",
+
+    "article_full_name": "test_driven_development_why_and_how.md",
+
+    "author": "Nicolas Yazman",
+
+    "category": "Test",
+
+    "short_description": "This articles describes what TDD is and what benefits it brings, and shortcomings it has."
+
+    
+}

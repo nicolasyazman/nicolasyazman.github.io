@@ -2,11 +2,13 @@
 <html>
   <head>
       <title>Nostalgia</title>
-      <script src="libraries/external/jquery.js"></script>
+      <script src="libraries/external/jquery.js"></script>  
+      <link rel="stylesheet" href="/structure/menu.css" />
   </head>
   <body>
     <?php
-      require './structure/menu.html';
+      $root = realpath($_SERVER["DOCUMENT_ROOT"]);
+      require $root . '/structure/menu.html';
     ?>
     <div>
       <p>Hello world.</p>
